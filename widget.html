@@ -1,0 +1,114 @@
+<div class="widget-container">
+  <div class="image-container">
+    <img id="profile-image" src="#" alt="Selected Profile Image" />
+  </div>
+
+  <div class="dropdowns">
+    <label for="profile">Profile:</label>
+    <select id="profile" onchange="updateColors()">
+      <option value="">Select Profile</option>
+      <option value="profile1">Profile 1</option>
+      <option value="profile2">Profile 2</option>
+      <option value="profile3">Profile 3</option>
+    </select>
+
+    <label for="colors">Colors:</label>
+    <select id="colors" onchange="updateImage()">
+      <option value="">Select Color</option>
+      <!-- Options will be dynamically populated based on profile -->
+    </select>
+  </div>
+</div>
+
+<style>
+  .widget-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .image-container img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    margin-bottom: 20px;
+  }
+
+  .dropdowns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  label {
+    margin-top: 10px;
+  }
+
+  select {
+    padding: 5px;
+    margin: 10px 0;
+  }
+</style>
+
+<script>
+  const profileColors = {
+    profile1: {
+      colors: ["Red", "Green", "Blue"],
+      images: {
+        Red: "profile1-red.jpg",
+        Green: "profile1-green.jpg",
+        Blue: "profile1-blue.jpg",
+      },
+    },
+    profile2: {
+      colors: ["Yellow", "Purple", "Black"],
+      images: {
+        Yellow: "profile2-yellow.jpg",
+        Purple: "profile2-purple.jpg",
+        Black: "profile2-black.jpg",
+      },
+    },
+    profile3: {
+      colors: ["Orange", "Pink", "Brown"],
+      images: {
+        Orange: "profile3-orange.jpg",
+        Pink: "profile3-pink.jpg",
+        Brown: "profile3-brown.jpg",
+      },
+    },
+  };
+
+  function updateColors() {
+    const profileSelect = document.getElementById("profile");
+    const colorSelect = document.getElementById("colors");
+    const selectedProfile = profileSelect.value;
+
+    // Clear out current color options
+    colorSelect.innerHTML = '<option value="">Select Color</option>';
+
+    if (selectedProfile && profileColors[selectedProfile]) {
+      const colors = profileColors[selectedProfile].colors;
+
+      // Populate the colors dropdown
+      colors.forEach((color) => {
+        const option = document.createElement("option");
+        option.value = color;
+        option.textContent = color;
+        colorSelect.appendChild(option);
+      });
+    }
+  }
+
+  function updateImage() {
+    const profileSelect = document.getElementById("profile");
+    const colorSelect = document.getElementById("colors");
+    const selectedProfile = profileSelect.value;
+    const selectedColor = colorSelect.value;
+
+    if (selectedProfile && selectedColor && profileColors[selectedProfile]) {
+      const imageSrc = profileColors[selectedProfile].images[selectedColor];
+      document.getElementById("profile-image").src = imageSrc;
+    }
+  }
+</script>
